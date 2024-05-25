@@ -1,0 +1,58 @@
+
+@Composable
+fun MarksEntry(modifier: Modifier = Modifier) {
+    val model = GenerativeModel(
+        modelName = "gemini-pro",
+        apiKey = "AIzaSyAkfC8OqglIKqc9kBuvjkRs0VRDJJS-xNE"
+    )
+    val scope = rememberCoroutineScope()
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        var name by remember { mutableStateOf("") }
+        var mark1 by remember { mutableStateOf("") }
+        var mark2 by remember { mutableStateOf("") }
+        var mark3 by remember { mutableStateOf("") }
+        var mark4 by remember { mutableStateOf("") }
+        var mark5 by remember { mutableStateOf("") }
+        var response: String? by remember { mutableStateOf(null) }
+        val query =
+            "Please give a 20 word recommendation to student called $name.. " +
+                    "on these marks out of 100: we have $mark1, $mark2, $mark3, $mark4 and $mark5"
+        Text(text = "Marks Recommendor system")
+        TextField(
+            value = name,
+            placeholder = { Text(text = "Your Name") },
+            onValueChange = { name = it })
+        TextField(
+            value = mark1,
+            placeholder = { Text(text = "Mark1") },
+            onValueChange = { mark1 = it })
+        TextField(
+            value = mark2,
+            placeholder = { Text(text = "Mark2") },
+            onValueChange = { mark2 = it })
+        TextField(
+            value = mark3,
+            placeholder = { Text(text = "Mark3") },
+            onValueChange = { mark3 = it })
+        TextField(
+            value = mark4,
+            placeholder = { Text(text = "Mark4") },
+            onValueChange = { mark4 = it })
+        TextField(
+            value = mark5,
+            placeholder = { Text(text = "Mark5") },
+            onValueChange = { mark5 = it })
+        Button(onClick = {
+            scope.launch {
+                response = model.generateContent(query).text
+            }
+        }) {
+            Text(text = "Generate!")
+        }
+        Text(text = response ?: "Enter some marks...")
+    }
+}
