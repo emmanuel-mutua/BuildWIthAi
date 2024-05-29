@@ -3,7 +3,7 @@
 fun MarksEntry(modifier: Modifier = Modifier) {
     val model = GenerativeModel(
         modelName = "gemini-pro",
-        apiKey = "AIzaSyAkfC8OqglIKqc9kBuvjkRs0VRDJJS-xNE"
+        apiKey = ""
     )
     val scope = rememberCoroutineScope()
     Column(
